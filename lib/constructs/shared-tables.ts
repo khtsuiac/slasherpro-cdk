@@ -9,6 +9,7 @@ export interface SharedTablesProps {
     matchHistoryTableName: string;
     matchTableName: string;
     enableMatchTableStream?: boolean; // Optional flag to enable stream on match table
+    ticketTableName: string;
 }
 
 export class SharedTables extends Construct {
@@ -72,6 +73,17 @@ export class SharedTables extends Construct {
             partitionKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
             projectionType: dynamodb.ProjectionType.ALL,
         });
+        this.jobTable.addGlobalSecondaryIndex({
+            indexName: 'company_id-index',
+            partitionKey: { name: 'company_id', type: dynamodb.AttributeType.STRING },
+            projectionType: dynamodb.ProjectionType.ALL,
+        });
+        this.jobTable.addGlobalSecondaryIndex({
+            indexName: 'job_status-index',
+            partitionKey: { name: 'job_status', type: dynamodb.AttributeType.STRING },
+            projectionType: dynamodb.ProjectionType.ALL,
+        });
+
 
         // Transaction Table
         this.transactionTable = new dynamodb.Table(this, 'TransactionTable', {
@@ -85,8 +97,18 @@ export class SharedTables extends Construct {
         // Match History Table
         this.matchHistoryTable = new dynamodb.Table(this, 'MatchHistoryTable', {
             tableName: props.matchHistoryTableName,
-            partitionKey: { name: 'sid', type: dynamodb.AttributeType.STRING },
-            sortKey: { name: 'jid', type: dynamodb.AttributeType.STRING },
+            partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+            sortKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
+
+            removalPolicy: cdk.RemovalPolicy.DESTROY, // Prevent accidental deletion
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        });
+
+        // Match History Table
+        this.matchHistoryTable = new dynamodb.Table(this, 'TicketTable', {
+            tableName: props.ticketTableName,
+            partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+            sortKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
 
             removalPolicy: cdk.RemovalPolicy.RETAIN_ON_UPDATE_OR_DELETE, // Prevent accidental deletion
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
@@ -101,5 +123,26 @@ export class SharedTables extends Construct {
             removalPolicy: cdk.RemovalPolicy.RETAIN_ON_UPDATE_OR_DELETE,
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
         });
+        this.matchTable.addGlobalSecondaryIndex({
+            indexName: 'pk-index',
+            partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+            projectionType: dynamodb.ProjectionType.ALL,
+        });
+        this.matchTable.addGlobalSecondaryIndex({
+            indexName: 'slasher_id-index',
+            partitionKey: { name: 'slasher_id', type: dynamodb.AttributeType.STRING },
+            projectionType: dynamodb.ProjectionType.ALL,
+        });
+        this.matchTable.addGlobalSecondaryIndex({
+            indexName: 'company_id-index',
+            partitionKey: { name: 'company_id', type: dynamodb.AttributeType.STRING },
+            projectionType: dynamodb.ProjectionType.ALL,
+        });
+        this.matchTable.addGlobalSecondaryIndex({
+            indexName: 'job_status-index',
+            partitionKey: { name: 'job_status', type: dynamodb.AttributeType.STRING },
+            projectionType: dynamodb.ProjectionType.ALL,
+        });
+
     }
 }

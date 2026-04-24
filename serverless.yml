@@ -1,0 +1,92 @@
+service: slasherpro-backend
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-east-1
+  stage: ${opt:stage, 'dev'} # option: dev/uat/prod
+  # IAM permissions
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource:
+            - arn:aws:secretsmanager:${self:provider.region}:*:secret:SPH/*
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:BatchGetItem
+            - dynamodb:BatchWriteItem
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/*
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+          Resource:
+            - arn:aws:s3:::*/*
+  environment:
+    NODE_ENV: ${self:provider.stage}
+
+    # AWS Secrets Manager
+    AWS_SECRET_NAME: ${env:AWS_SECRET_NAME}
+
+    # DynamoDB table name (format: ${env:variable name, 'default value'})
+    DYNAMODB_CERT_TABLE: ${env:DYNAMODB_CERT_TABLE, 'Cert'}
+    DYNAMODB_Jobs_TABLE: ${env:DYNAMODB_Jobs_TABLE, 'Job'}
+    DDB_USER_TABLE: ${env:DDB_USER_TABLE}
+    DDB_OLD_USER_TABLE: ${env:DDB_OLD_USER_TABLE, 'SP-DEV-USER'}
+    DDB_JOB_TABLE: ${env:DDB_JOB_TABLE, 'Job'}
+    DDB_EMPLOYEE_TABLE: ${env:DDB_EMPLOYEE_TABLE}
+
+    # S3
+    S3_CERT_BUCKET: ${env:S3_CERT_BUCKET, ''}
+
+    # Firebase settings (Private keys moved to AWS Secrets Manager)
+    FIREBASE_PROJECT_ID: ${env:FIREBASE_PROJECT_ID, ''}
+    FIREBASE_CLIENT_EMAIL: ${env:FIREBASE_CLIENT_EMAIL, ''}
+
+    # Secondary Firebase Configuration
+    FIREBASE_HR_PROJECT_ID: ${env:FIREBASE_HR_PROJECT_ID, ''}
+    FIREBASE_HR_CLIENT_EMAIL: ${env:FIREBASE_HR_CLIENT_EMAIL, ''}
+
+    # Client Config for Firebase SDK
+    FIREBASE_CLIENT_API_KEY: ${env:FIREBASE_CLIENT_API_KEY, ''}
+    FIREBASE_CLIENT_AUTH_DOMAIN: ${env:FIREBASE_CLIENT_AUTH_DOMAIN, ''}
+    FIREBASE_CLIENT_PROJECT_ID: ${env:FIREBASE_CLIENT_PROJECT_ID, ''}
+    FIREBASE_CLIENT_STORAGE_BUCKET: ${env:FIREBASE_CLIENT_STORAGE_BUCKET, ''}
+    FIREBASE_CLIENT_MESSAGING_SENDER_ID: ${env:FIREBASE_CLIENT_MESSAGING_SENDER_ID, ''}
+    FIREBASE_CLIENT_APP_ID: ${env:FIREBASE_CLIENT_APP_ID, ''}
+    FIREBASE_CLIENT_MEASUREMENT_ID: ${env:FIREBASE_CLIENT_MEASUREMENT_ID, ''}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+# Lambda functions definition
+functions:
+  api:
+    handler: src/lambda.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+
+# Custom settings
+custom:
+  serverless-offline: # for local development
+    httpPort: 3003
+    noPrependStageInUrl: true

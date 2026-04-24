@@ -1,0 +1,264 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = 1;
+  nodesep = 0.6;
+  ranksep = 0.75;
+  fontname = "Sans-Serif";
+  fontsize = 15;
+  dpi = 200;
+  rankdir = "BT";
+  compound = true;
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488";
+    penwidth = 2;
+    arrowhead = "dot";
+    arrowtail = "dot";
+  ];
+  node [
+    shape = "box";
+    style = "rounded";
+    fixedsize = true;
+    width = 1.7;
+    height = 1.7;
+    labelloc = "c";
+    imagescale = true;
+    fontname = "Sans-Serif";
+    fontsize = 8;
+    margin = 8;
+  ];
+  subgraph "SP-DEV-STACK" {
+    subgraph "cluster-SubGraph.SP-DEV-STACK" {
+      graph [
+        label = "SP-DEV-STACK";
+        labelloc = "b";
+        labeljust = "l";
+        margin = 10;
+        fontsize = 16;
+        penwidth = 2;
+        pencolor = "#888888";
+        style = "filled,rounded";
+        fillcolor = "#e4e4e4";
+      ];
+      "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" [
+        label = " HANDLE-MATCH-LAMBDA";
+        fontsize = 12;
+        image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png";
+        imagescale = "true";
+        imagepos = "tc";
+        penwidth = 0;
+        shape = "node";
+        fixedsize = "true";
+        labelloc = "b";
+        width = 2;
+        height = 2.266;
+      ];
+      subgraph "cluster-SubGraph.SP-DEV-TABLES" {
+        graph [
+          label = "SP-DEV-TABLES";
+          labelloc = "b";
+          labeljust = "l";
+          margin = 10;
+          fontsize = 16;
+          penwidth = 2;
+          pencolor = "#888888";
+          style = "filled,rounded";
+          fillcolor = "#d6d6d6";
+        ];
+        "SP-DEV-STACK/SP-DEV-TABLES/UserTable" [
+          label = " UserTable";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 1.2;
+          height = 1.466;
+        ];
+        "SP-DEV-STACK/SP-DEV-TABLES/JobTable" [
+          label = " JobTable";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 1.2;
+          height = 1.466;
+        ];
+        "SP-DEV-STACK/SP-DEV-TABLES/TransactionTable" [
+          label = " TransactionTable";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 1.2;
+          height = 1.466;
+        ];
+        "SP-DEV-STACK/SP-DEV-TABLES/MatchHistoryTable" [
+          label = " MatchHistoryTable";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 1.2;
+          height = 1.466;
+        ];
+        "SP-DEV-STACK/SP-DEV-TABLES/MatchTable" [
+          label = " MatchTable";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 1.2;
+          height = 1.466;
+        ];
+      }
+      subgraph "cluster-SubGraph.SP-DEV-BUCKETS" {
+        graph [
+          label = "SP-DEV-BUCKETS";
+          labelloc = "b";
+          labeljust = "l";
+          margin = 10;
+          fontsize = 16;
+          penwidth = 2;
+          pencolor = "#888888";
+          style = "filled,rounded";
+          fillcolor = "#d6d6d6";
+        ];
+        "SP-DEV-STACK/SP-DEV-BUCKETS/FAIL-LOGS-BUCKET" [
+          label = " FAIL-LOGS-BUCKET";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Storage/64/Arch_Amazon-S3-Standard_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.266;
+        ];
+        "SP-DEV-STACK/SP-DEV-BUCKETS/UPLOAD-PRIVATE-BUCKET" [
+          label = "\nUPLOAD-PRIVATE-BUCKET";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Storage/64/Arch_Amazon-S3-Standard_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.4819999999999998;
+        ];
+        "SP-DEV-STACK/SP-DEV-BUCKETS/UPLOAD-PUBLIC-BUCKET" [
+          label = " UPLOAD-PUBLIC-BUCKET";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Storage/64/Arch_Amazon-S3-Standard_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.266;
+        ];
+      }
+      subgraph "cluster-SubGraph.SP-DEV-MATCH-QUEUE" {
+        graph [
+          label = "SP-DEV-MATCH-QUEUE";
+          labelloc = "b";
+          labeljust = "l";
+          margin = 10;
+          fontsize = 16;
+          penwidth = 2;
+          pencolor = "#888888";
+          style = "filled,rounded";
+          fillcolor = "#d6d6d6";
+        ];
+        "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-MATCH-REQUEST-QUEUE-DLQ" [
+          label = " SP DEV MATCH REQUEST\nQUEUE DLQ";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_App-Integration/Arch_64/Arch_AWS-Simple-Queue-Service_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.4819999999999998;
+        ];
+        "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-MATCH-REQUEST-QUEUE.fifo" [
+          label = " SP DEV MATCH REQUEST\nQUEUE.fifo";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_App-Integration/Arch_64/Arch_AWS-Simple-Queue-Service_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.4819999999999998;
+        ];
+        "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-SQS-INVOKE-MATCH-AI-LAMBDA-FUNCTION" [
+          label = " SP DEV SQS INVOKE\nMATCH AI LAMBDA\nFUNCTION";
+          fontsize = 12;
+          image = "/Users/recube/Documents/GitHub/slasherpro-cdk/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.6979999999999995;
+        ];
+      }
+    }
+  }
+  "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-MATCH-REQUEST-QUEUE.fifo" -> "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-MATCH-REQUEST-QUEUE-DLQ" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-SQS-INVOKE-MATCH-AI-LAMBDA-FUNCTION" -> "SP-DEV-STACK/SP-DEV-MATCH-QUEUE/SP-DEV-MATCH-REQUEST-QUEUE.fifo" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" -> "SP-DEV-STACK/SP-DEV-TABLES/UserTable" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" -> "SP-DEV-STACK/SP-DEV-TABLES/JobTable" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" -> "SP-DEV-STACK/SP-DEV-TABLES/TransactionTable" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" -> "SP-DEV-STACK/SP-DEV-TABLES/MatchHistoryTable" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" -> "SP-DEV-STACK/SP-DEV-TABLES/MatchTable" [
+    dir = "both";
+  ];
+  "SP-DEV-STACK/SP-DEV-HANDLE-MATCH-LAMBDA/HANDLE-MATCH-LAMBDA" -> "SP-DEV-STACK/SP-DEV-BUCKETS/FAIL-LOGS-BUCKET" [
+    dir = "both";
+  ];
+}

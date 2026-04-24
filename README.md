@@ -1,8 +1,12 @@
 # Slasher Pro Infrastructure
 
+### Installlation
+
+https://github.com/pistazie/cdk-dia
+
 ## Instances
 
-ECS - Nestjs 
+ECS - Nestjs
 
 ## Lambda Functions
 
