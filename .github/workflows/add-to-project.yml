@@ -1,15 +1,15 @@
 name: "Auto Add Issues to GitHub Project"
 
 on:
-  issues:
-    types: [opened, reopened]
+  issues:
+    types: [opened, reopened]
 
 jobs:
-  add-to-project:
-    name: "Add Issue to Project Board"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/add-to-project@v2
-        with:
-          project-url: https://github.com/users/khtsuiac/projects/1
-          github-token: ${{ secrets.PROJECTS_TOKEN }}
+  add-to-project:
+    name: "Add Issue to Project Board"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v2
+        with:
+          project-url: https://github.com/users/khtsuiac/projects/0
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
