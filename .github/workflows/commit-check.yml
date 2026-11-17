@@ -1,0 +1,25 @@
+name: "Commit Message Governance"
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - uat
+      - uatx
+      - prod
+      - main
+      - master
+
+jobs:
+  check-commit-message:
+    name: "Validate Commit Message Format"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Messages
+        uses: gsck/commit-message-checker@v2
+        with:
+          pattern: '^\[(SPH|SPN|SPE)[0-9]+\] .+'
+          flags: 'g'
+          error: 'Commit messages must start with a valid requirement ID and description (e.g., [SPH123] Fix leave balance, [SPN123] Update profile, or [SPE123] Add ticket tier).'
+          excludeTitle: true
+          excludeDescription: true
