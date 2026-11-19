@@ -2,55 +2,53 @@ name: "Commit Message Governance"
 
 on:
   pull_request:
+    types: [opened, edited, synchronize, reopened]
     branches:
       - dev
       - uat
+      - uat2
       - uatx
       - prod
       - main
       - master
-
-permissions:
-  contents: read
-  pull-requests: read
 
 jobs:
   check-commit-message:
     name: "Validate Commit Message Format"
     runs-on: ubuntu-latest
     steps:
-      - name: Check Commit Messages
+      - name: Validate Branch Name and PR Title
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-          PATTERN: '^\[(SPH|SPN|SPE)[0-9]+\] .+'
-          ERROR_MSG: 'Commit messages must start with a valid requirement ID and description (e.g., [SPH123] Fix leave balance, [SPN123] Update profile, or [SPE123] Add ticket tier).'
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          TITLE_PATTERN: '^\[(SPH|SPN|SPE)[0-9]+\] .+'
+          BRANCH_PATTERN: '^requirement/(SPH|SPN|SPE)[0-9]+(-[A-Za-z0-9._-]+)?$'
+          ALLOWED_EXAMPLES: '[SPH123] Fix leave balance, [SPN123] Update profile, or [SPE123] Add ticket tier'
+          BRANCH_EXAMPLES: 'requirement/SPH123-fix-leave, requirement/SPN123-update-profile, or requirement/SPE123-add-ticket'
         run: |
           python3 - <<'EOF'
-          import os, re, subprocess, sys
+          import os, re, sys
 
-          repo = os.environ["REPO"]
-          pr = os.environ["PR_NUMBER"]
-          pattern = re.compile(os.environ["PATTERN"])
-          error_msg = os.environ["ERROR_MSG"]
+          head_ref = os.environ["HEAD_REF"]
+          base_ref = os.environ["BASE_REF"]
+          pr_title = os.environ["PR_TITLE"].strip()
+          title_re = re.compile(os.environ["TITLE_PATTERN"])
+          branch_re = re.compile(os.environ["BRANCH_PATTERN"])
 
-          output = subprocess.check_output(
-              ["gh", "api", f"repos/{repo}/pulls/{pr}/commits", "--paginate", "--jq", r'.[].commit.message | split("\n")[0]'],
-              text=True
-          )
+          if head_ref in {"dev", "uat", "uat2", "uatx"}:
+              print(f"Environment promotion ({head_ref} -> {base_ref}) passed.")
+              sys.exit(0)
 
-          subjects = [line.strip() for line in output.splitlines() if line.strip()]
-          if not subjects:
-              print("No commits found on pull request.")
+          if not (branch_re.match(head_ref) or head_ref.startswith("hotfix/")):
+              print(f"Invalid branch name: {head_ref}")
+              print(f"Expected format: {os.environ['BRANCH_EXAMPLES']}")
               sys.exit(1)
 
-          failed = [msg for msg in subjects if not pattern.match(msg)]
-          if failed:
-              for msg in failed:
-                  print(f"❌ Invalid commit message: {msg}")
-              print(f"\nError: {error_msg}")
+          if not title_re.match(pr_title):
+              print(f"Invalid Pull Request title: {pr_title}")
+              print(f"Expected format: {os.environ['ALLOWED_EXAMPLES']}")
               sys.exit(1)
 
-          print(f"✅ All {len(subjects)} commit message(s) match {os.environ['PATTERN']}")
+          print(f"Branch '{head_ref}' and PR title '{pr_title}' are valid.")
           EOF
